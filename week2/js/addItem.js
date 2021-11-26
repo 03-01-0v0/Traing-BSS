@@ -17,7 +17,7 @@ function addItem() {
             "<td>" + "30" + "</td>";
         item += "</tr>";
         current_list += item;
-        current_Obj.devices.push({"device":name_device, "Address": "00:1B:44:11:3A:B7", "IP":val_IP, "Date":date_now, "Power":50});
+        current_Obj.push({"device":name_device, "Address": "00:1B:44:11:3A:B7", "IP":val_IP, "Date":date_now, "Power":50});
         document.getElementById("tb").innerHTML = current_header + current_list + (current_footer + sum + "</tr>");
         document.getElementById("nameitem").value = "";
         document.getElementById("IP").value = "";

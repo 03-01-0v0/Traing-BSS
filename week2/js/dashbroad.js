@@ -13,7 +13,7 @@ xmlhttp.onload = function () {
         "<th>Power Comsumption(Kw/H)</th>" +
         "</tr>";
     var data = "";
-    myObj.devices.forEach(e => {
+    myObj.forEach(e => {
         var item = "<tr>";
         for (var x in e) {
             if (x == "Power") total += parseInt(e[x]);
@@ -38,5 +38,5 @@ xmlhttp.onload = function () {
     document.getElementById("tb").innerHTML = header + data + footer;
 };
 
-xmlhttp.open("GET", "../database/devices.json");
+xmlhttp.open("GET", "https://61a0c8c56c3b400017e69a63.mockapi.io/devices");
 xmlhttp.send();

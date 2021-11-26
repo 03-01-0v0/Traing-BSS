@@ -19,11 +19,11 @@ function nextpage(idx)
     var data = "";
     var save = idx;
     var idx = (idx - 1) * 10;
-    for (var i = idx; i < Math.min(idx + 10, myObj.logs.length); i++) {
+    for (var i = idx; i < Math.min(idx + 10, myObj.length); i++) {
         ++total;
         var item = "<tr>";
-        for (var x in myObj.logs[i]) {
-            item += "<td>" + myObj.logs[i][x] + "</td>";
+        for (var x in myObj[i]) {
+            item += "<td>" + myObj[i][x] + "</td>";
         }
         item += "</tr>";
         data += item;

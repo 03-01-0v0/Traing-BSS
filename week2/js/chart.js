@@ -19,7 +19,7 @@ function loadChart() {
         "#535c68"
     ];
     
-    current_Obj.devices.forEach(element => {
+    current_Obj.forEach(element => {
         for (var x in element)
             if (x == "device")
                 fill_device.add(element[x]);
@@ -28,7 +28,7 @@ function loadChart() {
     console.log(fill_device);
     fill_device.forEach(e => {
         var cnt = 0;
-        current_Obj.devices.forEach(i => {
+        current_Obj.forEach(i => {
             for (var x in i)
                 if (i[x] == e)
                     ++cnt;

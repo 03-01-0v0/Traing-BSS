@@ -11,7 +11,7 @@ xmlhttp.onload = function () {
         "<th>Date</th>"
     "</tr>"
     var data = "";
-    myObj.logs.forEach(e => {
+    myObj.forEach(e => {
         ++total;
         var item = "<tr>";
         for (var x in e) {
@@ -34,9 +34,9 @@ xmlhttp.onload = function () {
     sum = total;
     loaded = true;
     document.getElementById("tb").innerHTML = header + data + footer;
-    count_page(myObj.logs.length);
+    count_page(myObj.length);
 };
 
 
-xmlhttp.open("GET", "../database/logs.json");
+xmlhttp.open("GET", "https://61a0c8c56c3b400017e69a63.mockapi.io/logs");
 xmlhttp.send();
