@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logs</title>
+    <link rel="stylesheet" href="/week2/css/log.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="/week2/js/logs.js"></script>
+    <script src="/week2/js/search.js"></script>
+    <script src="/week2/js/pagination.js"></script>
+</head>
+
+<body>
+
+    <div class="flex-container">
+        <nav role="navigation">
+            <div id="menuToggle">
+                <input type="checkbox" />
+                <span></span>
+                <span></span>
+                <span></span>
+                <ul id="menu">
+                    <li class="repon-account"><i class="material-icons">account_circle</i><a
+                            href="/week2/html/dashbroad.html" class="hover-nactive">Welcom John</a></li>
+                    <li class="device-manager"><i class="material-icons" style="font-size: 30px;">devices</i><a
+                            class="hover-nactive" href="#" style="font-size: 20px;">Device Manager</a></li>
+                    <li><i class="material-icons">devices_other</i><a href="/week2/html/dashbroad.html"
+                            class="active">Dashbroad</a></li>
+                    <li><i class="material-icons">history</i><a href="/week2/html/log.html">Logs</a></li>
+                    <li><i class="material-icons">settings</i><a href="#">Settings</a></li>
+                </ul>
+            </div>
+        </nav>
+        <div class="main">
+            <div class="account">
+                <p>Welcome John<i class="material-icons">account_circle</i></p>
+            </div>
+            <div class="data">
+                <div class="data-header">
+                    <h3>Action Logs</h3>
+                    <div id="search">
+                        <form action="" class="form-search">
+                            <input type="search" name="" id="input-search" placeholder="name" aria-label="Search">
+                            <button class="btn-search" type="button" onclick="return searchItem()">Search</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="data-footer">
+                    <table id="tb">
+                    </table>
+                    <div class="page">
+                        <form action="" id="form-page">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
