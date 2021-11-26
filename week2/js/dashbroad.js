@@ -38,5 +38,5 @@ xmlhttp.onload = function () {
     document.getElementById("tb").innerHTML = header + data + footer;
 };
 
-xmlhttp.open("GET", "http://127.0.0.1:5500/week2/database/devices.json");
+xmlhttp.open("GET", "../database/devices.json");
 xmlhttp.send();

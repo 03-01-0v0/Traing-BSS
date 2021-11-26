@@ -38,5 +38,5 @@ xmlhttp.onload = function () {
 };
 
 
-xmlhttp.open("GET", "http://127.0.0.1:5500/week2/database/logs.json");
+xmlhttp.open("GET", "../database/logs.json");
 xmlhttp.send();
