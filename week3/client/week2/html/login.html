@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="../css/login.css">
+    <script src="../js/login.js"></script>
+</head>
+<body>
+    <div class="login">
+        <h3>Login Page</h3>
+        <form action="" name="form-login">
+            <input type="text" class="account" name="username" id="username" placeholder="username" required
+                oninvalid="this.setCustomValidity('Please, enter user name here')" oninput="this.setCustomValidity('')">
+            <input type="password" class="account" name="password" id="password" placeholder="password" required
+                oninvalid="this.setCustomValidity('Please, enter password here')" oninput="this.setCustomValidity('')">
+            <p id="demo"></p>
+            <button type="button" onclick="isSuccessLogin()" class="btn btn-login">Login</button>
+            <a href="#">Forgot Password?</a>
+            <a href="#">Create new account</a>
+            <button class="btn btn-login-google">
+                <span>Login with google account </span>
+            </button>
+            <button class="btn btn-login-fb">
+                <span>Login with facebook account </span>
+            </button>
+        </form>
+    </div>
+</body>
+
+</html>
