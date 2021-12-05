@@ -1,4 +1,4 @@
-import styles from '../../styles/login.module.css'
+import styles from '../styles/login.module.css'
 import Link from 'next/link'
 export default function Login() {
     return (
@@ -14,7 +14,7 @@ export default function Login() {
                 </input>
                 <p id="demo"></p>
                 <button type="button" onclick="isSuccessLogin()" className={[styles.btn, styles.btn_login].join(" ")}>Login</button>
-                <Link href="../Dashbroad/dashbroad"><a className={styles.a}>Forgot Password?</a></Link>
+                <Link href="../dashbroad"><a className={styles.a}>Forgot Password?</a></Link>
                 <a className={styles.a} href="#">Create new account</a>
                 <button className={[styles.btn, styles.btn_login_google].join(" ")}>
                     <span>Login with google account </span>

@@ -1,57 +1,40 @@
 #menuToggle {
-    background-color: white;
-    padding: 0;
-    height: 100%;
-    width: 20%;
-    border-right: #f1f1f1 solid 1px;
+  background-color: white;
+  padding: 0;
+  height: 100%;
+  width: 20%;
+  border-right: #f1f1f1 solid 1px;
 }
 
-#i {
-    float: left;
-    padding: 5px;
+#menuToggle .tag_input, .tag_span {
+  display: none;
 }
 
-#menuToggle .a {
-    margin-bottom: 10px;
-}
-
-.ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    width: 20%;
-    height: 100%;
-    background-color: white;
-    position: absolute;
-    overflow: auto;
-}
-
-.li .a {
-    display: block;
-    color: #000;
-    padding: 8px 16px;
-    text-decoration: none;
-}
-
-.li .a.active {
-    color: #00a8ff;
-}
-
-.li .a:hover:not(.hover_nactive) {
-    background-color: #555;
-    color: white;
-}
-
-#menuToggle .input, .span {
-    display: none;
-}
-
-.nav {
-    display: inline;
-    margin-right: 10px;
-    width: 20%;
+.tag_nav {
+  display: inline;
+  margin-right: 10px;
+  width: 20%;
 }
 
 .repon_account {
-    display: none;
+  display: none;
+}
+
+.tag_ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  width: 20%;
+  height: 100%;
+  background-color: white;
+  position: absolute;
+  overflow: auto;
+}
+
+.device_manager i {
+  font-size: 30px;
+}
+
+.hover_nactive {
+  font-size: 20px;
 }
