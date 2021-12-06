@@ -1,5 +1,6 @@
 import styles from '../../styles/menu.module.css'
 export default function Menu() {
+    
     return (
         <nav className={styles.tag_nav} role="navigation">
         <div id={styles["menuToggle"]}>

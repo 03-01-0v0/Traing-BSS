@@ -1,0 +1,25 @@
+#input_search {
+    width: 27%;
+    height: 40px;
+    border-radius: 3px 0 0 3px;
+    border: solid 1px #dcdde1;
+    transform: translate(300%, -5%);
+}
+
+.btn_search {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;    
+    height: 40px;
+    width: 10%;
+    transform: translate(820%, -5%);
+    background: #f19066;
+    overflow: hidden;
+
+
+}
+
+.btn_search:hover {
+    background: #F79F1F;
+}

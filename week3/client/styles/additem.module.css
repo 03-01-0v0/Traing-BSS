@@ -1,0 +1,47 @@
+#input_item {
+    width: 47%;
+    height: 600px;
+    background-color: white;
+    border: 1px solid #d1ccc0;
+    box-shadow: 0px 2px #888888;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+.new_item {
+    width: 60%;
+    height: 50px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border: none;
+    margin-right: 20%;
+    margin-left: 20%;
+    margin-top: 10%;
+    margin-bottom: 20px;
+    padding: 5px;
+    background-color: #f7f1e3;
+    box-shadow: 0px 1px #888888;
+}
+
+.btn_add {
+    width: 20%;
+    height: 50px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    outline: none;
+    border: none;
+    margin-top: 5%;
+    margin-left: 40%;
+    margin-right: 40%;
+    margin-bottom: 5%;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.5s;
+    background-color: #ff9f1a;
+    text-decoration-color: white;
+    overflow: hidden;
+}
