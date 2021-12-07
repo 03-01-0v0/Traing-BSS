@@ -253,6 +253,6 @@ li a:hover:not(.hover_nactive) {
   }
 }
 /**file log*/
-h3 {
+.tag_h3 {
   float: left;
 }

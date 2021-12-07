@@ -98,13 +98,17 @@ export default function myChart(props) {
         }]
     };
     return (
-        <div id={styles["myChart"]}>
             <Doughnut
-                // data={props.data}
                 data={data}
-                width={200}
-                height={200}
+                options = {
+                    {
+                        title : {
+                            display : true,
+                            text : "Devices Chart"
+                        },
+                        maintainAspectRatio: false
+                    }
+                }
             />
-        </div>
     );
 }

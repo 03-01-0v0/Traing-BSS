@@ -11,53 +11,8 @@ import Additem from './Components/additem';
 
 
 export default function Dashbroad(props) {
-    const data = [
-        {
-            device: "Washer",
-            Address: "00:1B:44:11:3A:B7",
-            IP: "127.0.0.2",
-            Date: "2021-05-31",
-            Power: "50"
-        },
-        {
-            device: "Refrigerator",
-            Address: "00:1B:44:11:3A:B7",
-            IP: "127.0.1.2",
-            Date: "2021-06-31",
-            Power: "50"
-        },
-        {
-            device: "Selling Fan",
-            Address: "00:1B:44:11:3A:B7",
-            IP: "127.0.1.3",
-            Date: "2021-07-31",
-            Power: "50"
-        },
-        {
-            device: "TV",
-            Address: "00:1B:44:11:3A:B7",
-            IP: "127.0.2.2",
-            Date: "2021-08-31",
-            Power: "50"
-        },
-        {
-            device: "Play station",
-            Address: "00:1B:44:11:3A:B7",
-            IP: "127.3.4.5",
-            Date: "2021-09-31",
-            Power: "50"
-        },
-        {
-            device: "Washer",
-            Address: "00:1B:44:11:3A:B7",
-            IP: "127.0.0.2",
-            Date: "2021-05-31",
-            Power: "50"
-        }
-    ];
 
-    // const [dataDevice, setDataDevice] = useState(props.data);
-    // setDataDevice(data);
+    const [dataDevice, setDataDevice] = useState(props.data);
     return (
         <body>
             <div class="flex-container">
@@ -66,11 +21,11 @@ export default function Dashbroad(props) {
                     <Account></Account>
                     <div class="data">
                         <div class="data-header">
-                            <Table data ={data}></Table>
+                            <Table data ={dataDevice}></Table>
                         </div>
                         <div class="data-footer">
                             <div class="chart">
-                                <Chart data={data}></Chart>
+                                <Chart id="myChart" data={dataDevice}></Chart>
                             </div>
                             <Additem></Additem>
                         </div>
@@ -79,4 +34,12 @@ export default function Dashbroad(props) {
             </div>
         </body>
     );
+}
+
+Dashbroad.getInitialProps = async function () {
+    const res = await fetch('http://localhost:3002/devices')
+    const data = await res.json()
+    return {
+        data: data
+    }
 }
