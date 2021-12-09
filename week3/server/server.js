@@ -4,7 +4,6 @@ const app = new Koa();
 const fs = require('fs');
 const cors = require('koa-cors');
 const Router = require('koa-router');
-const { routes } = require('./user');
 const bodyParser = require('koa-bodyparser');
 const router = new Router({prefix: '/login'});
 
@@ -20,24 +19,17 @@ router.get('/', async (ctx) => {
 })
     .post('/', async (ctx, next) => {
         console.log(ctx.request);
-        // console.log(ctx.request.body, ctx.request.body["username"], ctx.request.body["password"]);
-        if (!ctx.request.body["username"] && !ctx.request.body["password"])
-        {
-            ctx.body = "Error....";
-        }
-        else
-        {
-            let username = ctx.request.body["username"];
-            let password = ctx.request.body["password"];
-            let data = fs.readFileSync('./data/account.json', 'utf8')
-            let user = JSON.parse(data);
-            user.forEach((e) => {
-                if (e.username === username && e.password === password) {
-                    ctx.body = e;
-                }
-            })
-        }
-
+        let username = ctx.request.body["username"];
+        let password = ctx.request.body["password"];
+        console.log("password",password)
+        console.log("username",username);
+        let data = fs.readFileSync('./data/account.json', 'utf8')
+        let user = JSON.parse(data);
+        user.forEach((e) => {
+            if (e.username === username && e.password === password) {
+                ctx.body = e;
+            }
+        })
     })
 
 //device
@@ -50,27 +42,24 @@ deviceRouter.get('/', '/', (ctx) => {
     .post('/', async (ctx, next) => {
         // handle your post request here
         try {
-            // let date_ob = new Date();
-            // let day = ("0" + date_ob.getDate()).slice(-2);
-            // let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
-            // let year = date_ob.getFullYear();
-            // let name = ctx.request.body["name"];
-            // let mac = ctx.request.body["mac"];
-            // let ip = ctx.request.body["ip"];
-            // let date = day + "-" + month + "-" + year;
-            // let power = ctx.request.body["power"];
-            // let device = {
-            //     name: name,
-            //     mac: mac,
-            //     ip: ip,
-            //     date: date,
-            //     power: power
-            // }
-            let data = fs.readFileSync('./data/devices.json', 'utf8')
-            let dataJSON = JSON.parse(data);
-            // dataJSON.push(device);
-            // fs.writeFileSync('./data/devices.json', JSON.stringify(dataJSON))
+            const d = new Date();
+            var dateNow = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
+            var device = ctx.request.body["device"];
+            var ip = ctx.request.body["ip"];
+            var newDevice = {
+                device: device,
+                Address: "00:1B:44:11:3A:B7",
+                IP: ip,
+                Date: dateNow,
+                Power: "30"
+            }
+            var data = fs.readFileSync('./data/devices.json', 'utf8')
+            var dataJSON = JSON.parse(data);
+            dataJSON.push(newDevice);
+            console.log(dataJSON);
+            fs.writeFileSync('./data/devices.json', JSON.stringify(dataJSON))
             ctx.body = dataJSON;
+            console.log("dataServer", dataJSON);
         } catch (e) {
             console.log("Error update data");
         }
@@ -81,7 +70,7 @@ deviceRouter.get('/', '/', (ctx) => {
 
 const logRouter = new Router({prefix: '/logs'});
 logRouter.get('/', '/', (ctx) => {
-    console.log(ctx.query)
+    console.log("ctx query", ctx.query)
     try {
         if (ctx.query.search !== null) {
             let search = ctx.query.search.toString().toLowerCase();
@@ -89,7 +78,7 @@ logRouter.get('/', '/', (ctx) => {
             let data = fs.readFileSync('./data/logs.json', 'utf8')
             let dataJSON = JSON.parse(data);
             dataJSON.forEach(e => {
-                if (e.name.toString().toLowerCase().indexOf(search) >= 0 || e.device_id.toString().toLowerCase().indexOf(search) >= 0 || e.action.toString().toLowerCase().indexOf(search) >= 0 || e.date.toString().toLowerCase().indexOf(search) >= 0) {
+                if (e.Name.toString().toLowerCase().indexOf(search) != -1) {
                     result.push(e)
                 }
             })

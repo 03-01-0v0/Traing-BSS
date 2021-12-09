@@ -16,3 +16,9 @@
     padding-top: 0;
     clear: both;
 }
+
+@media screen and (max-width: 414px) {
+    .account {
+        display: none;
+    }
+}

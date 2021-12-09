@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import styles from '../../styles/table.module.css'
 export default function Table_dashbroad(props) {
-    const data = props.data;
+    const [data, setData] = useState(props.data);
     var total = 0;
     return (
         <table id={styles["tb"]}>
@@ -13,7 +13,7 @@ export default function Table_dashbroad(props) {
                 <th className={styles.tag_th}>Power Comsumption(Kw/H)</th>
             </tr>
             {
-                data.map((user) => (
+                props.data.map((user) => (
                     total += parseInt(user.Power),
                     <tr className={styles.tag_tr}>
                         <td className={styles.tag_td}>{user.device}</td>

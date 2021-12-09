@@ -58,7 +58,6 @@ import {
   );
 
 export default function myChart(props) {
-    const myObj = props.data
     const fill_device = new Set();
     var xValues = [];
     var yValues = [];
@@ -78,12 +77,12 @@ export default function myChart(props) {
         "#ffbe76",
         "#535c68"
     ];
-    myObj.map((e) => (
+    props.data.map((e) => (
         fill_device.add(e.device)
     ))
     fill_device.forEach(e => {
         var cnt = 0;
-        myObj.forEach(i => {
+        props.data.forEach(i => {
             if (i.device == e)
                 ++cnt;
         })

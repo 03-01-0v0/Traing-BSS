@@ -13,10 +13,16 @@ import Additem from './Components/additem';
 export default function Dashbroad(props) {
 
     const [dataDevice, setDataDevice] = useState(props.data);
+
+    async function addItem() {
+        const res = await fetch('http://localhost:3002/devices');
+        const data = await res.json();
+        setDataDevice(data);
+    }
     return (
         <body>
             <div class="flex-container">
-                <Menu></Menu>
+                <Menu active="dashbroad"></Menu>
                 <div class="main">
                     <Account></Account>
                     <div class="data">
@@ -27,7 +33,7 @@ export default function Dashbroad(props) {
                             <div class="chart">
                                 <Chart id="myChart" data={dataDevice}></Chart>
                             </div>
-                            <Additem></Additem>
+                            <Additem getData={addItem}></Additem>
                         </div>
                     </div>
                 </div>
