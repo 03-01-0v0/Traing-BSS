@@ -1,7 +1,6 @@
 import { useCallback, useState } from 'react';
 import styles from '../../styles/additem.module.css'
 export default function addItem(props) {
-    const [addError, setAddError] = useState('');
     const [nameDevice, setNameDevice] = useState('');
     const [IP, setIP] = useState('');
 
@@ -16,15 +15,17 @@ export default function addItem(props) {
                 ip: IP
             }),
         })
-            .then((r) => {
-                console.log(r)
-                return r;
-            })
             .then((data) => {
                 if (data && data.status === 404) {
-                    setAddError('Please try again');
+                    alert("Error...")
                 } else {
-                    props.getData()
+                    
+                    if (nameDevice == '' || IP == '')
+                        alert("Name or IP invalid")
+                    else
+                        props.getData()
+                    setIP("");
+                    setNameDevice("")
                 }
             });
     }, [nameDevice, IP])
@@ -32,9 +33,9 @@ export default function addItem(props) {
     return (
         <form action="" id={styles["input_item"]}>
             <input type="text" className={styles.new_item} name="nameitem" id="nameitem" placeholder="name" required
-                onInvalid ={e => e.target.setCustomValidity('Please, Enter Name Here')} onInput={e => e.target.setCustomValidity('')} onChange={(e) => setNameDevice(e.target.value)} />
+                onInvalid ={e => e.target.setCustomValidity('Please, Enter Name Here')} onInput={e => e.target.setCustomValidity('')} onChange={(e) => setNameDevice(e.target.value)} value={nameDevice} />
             <input type="text" className={styles.new_item} name="IP" id="IP" placeholder="IP" required
-                 onInvalid ={e => e.target.setCustomValidity('Please, Enter IP Here')} onInput={e => e.target.setCustomValidity('')} onChange={(e) => setIP(e.target.value)} />
+                 onInvalid ={e => e.target.setCustomValidity('Please, Enter IP Here')} onInput={e => e.target.setCustomValidity('')} onChange={(e) => setIP(e.target.value)} value={IP} />
             <button type="button" onClick={addItem} className={styles.btn_add}>ADD DEVICE</button>
         </form>
     );

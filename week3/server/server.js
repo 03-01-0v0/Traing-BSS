@@ -21,8 +21,6 @@ router.get('/', async (ctx) => {
         console.log(ctx.request);
         let username = ctx.request.body["username"];
         let password = ctx.request.body["password"];
-        console.log("password",password)
-        console.log("username",username);
         let data = fs.readFileSync('./data/account.json', 'utf8')
         let user = JSON.parse(data);
         user.forEach((e) => {
@@ -55,7 +53,8 @@ deviceRouter.get('/', '/', (ctx) => {
             }
             var data = fs.readFileSync('./data/devices.json', 'utf8')
             var dataJSON = JSON.parse(data);
-            dataJSON.push(newDevice);
+            if (device !== '' && ip !== '')
+                dataJSON.push(newDevice);
             console.log(dataJSON);
             fs.writeFileSync('./data/devices.json', JSON.stringify(dataJSON))
             ctx.body = dataJSON;
@@ -66,11 +65,11 @@ deviceRouter.get('/', '/', (ctx) => {
     })
 ;
 
+
 //logs
 
 const logRouter = new Router({prefix: '/logs'});
 logRouter.get('/', '/', (ctx) => {
-    console.log("ctx query", ctx.query)
     try {
         if (ctx.query.search !== null) {
             let search = ctx.query.search.toString().toLowerCase();
@@ -82,8 +81,6 @@ logRouter.get('/', '/', (ctx) => {
                     result.push(e)
                 }
             })
-            console.log(result)
-            console.log("dataJSON", dataJSON)
             ctx.body = result;
         } else {
             let data = fs.readFileSync('./data/logs.json', 'utf8')

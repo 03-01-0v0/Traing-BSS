@@ -24,13 +24,8 @@ export default function Home() {
                 password: password
             }),
         })
-            .then((r) => {
-                console.log(r)
-                return r;
-            })
             .then((data) => {
                 if (data && data.status === 404) {
-                    // setLoginError(data.message);
                     setLogError('Username or password invalid');
                 } else {
                     Router.push('dashbroad');
