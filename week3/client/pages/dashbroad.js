@@ -13,24 +13,29 @@ import Additem from './Components/additem';
 export default function Dashbroad(props) {
 
     const [dataDevice, setDataDevice] = useState(props.data);
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(async() => {
+        await setMounted(true);
+    }, [])
 
     async function addItem() {
         const res = await fetch('http://localhost:3002/devices');
         const data = await res.json();
         setDataDevice(data);
     }
-    return (
+    return ( mounted &&
         <body>
-            <div class="flex-container">
+            <div className="flex-container">
                 <Menu active="dashbroad"></Menu>
-                <div class="main">
+                <div className="main">
                     <Account></Account>
-                    <div class="data">
-                        <div class="data-header">
+                    <div className="data">
+                        <div className="data-header">
                             <Table data ={dataDevice}></Table>
                         </div>
-                        <div class="data-footer">
-                            <div class="chart">
+                        <div className="data-footer">
+                            <div className="chart">
                                 <Chart id="myChart" data={dataDevice}></Chart>
                             </div>
                             <Additem getData={addItem}></Additem>

@@ -5,29 +5,35 @@ export default function Table_dashbroad(props) {
     var total = 0;
     return (
         <table id={styles["tb"]}>
-            <tr>
-                <th className={styles.tag_th}>Devices</th>
-                <th className={styles.tag_th}>MAC Address</th>
-                <th className={styles.tag_th}>IP</th>
-                <th className={styles.tag_th}>Created Date</th>
-                <th className={styles.tag_th}>Power Comsumption(Kw/H)</th>
+            <thead>
+            <tr key="tr_header">
+                <th key="th_devices" className={styles.tag_th}>Devices</th>
+                <th key="th_address" className={styles.tag_th}>MAC Address</th>
+                <th key="th_IP" className={styles.tag_th}>IP</th>
+                <th key="th_date" className={styles.tag_th}>Created Date</th>
+                <th key="th_power" className={styles.tag_th}>Power Comsumption(Kw/H)</th>
             </tr>
+            </thead>
+            <tbody>
             {
                 props.data.map((user) => (
                     total += parseInt(user.Power),
-                    <tr className={styles.tag_tr}>
-                        <td className={styles.tag_td}>{user.device}</td>
-                        <td className={styles.tag_td}>{user.Address}</td> 
-                        <td className={styles.tag_td}>{user["IP"]}</td>
-                        <td className={styles.tag_td}>{user.Date}</td> 
-                        <td className={styles.tag_td}>{user.Power}</td>
+                    <tr key={"tr" + total} className={styles.tag_tr}>
+                        <td key={user.device} className={styles.tag_td}>{user.device}</td>
+                        <td key={user.Address} className={styles.tag_td}>{user.Address}</td> 
+                        <td key={user["IP"]} className={styles.tag_td}>{user["IP"]}</td>
+                        <td key={user.Date} className={styles.tag_td}>{user.Date}</td> 
+                        <td key={user.Power} className={styles.tag_td}>{user.Power}</td>
                     </tr>
                 ))
             }
-            <tr className={[styles.total, styles.tag_tr].join(" ")}>
-                <td className={styles.tag_td} colSpan={4}><b>Total</b></td>
-                <td className={styles.tag_td}>{total}</td>
+            </tbody>
+            <tfoot>
+            <tr key="tr_footer" className={[styles.total, styles.tag_tr].join(" ")}>
+                <td key="tr_footer" className={styles.tag_td} colSpan={4}><b>Total</b></td>
+                <td key="tr_footer" className={styles.tag_td}>{total}</td>
             </tr>
+            </tfoot>
         </table>
     );
 }

@@ -4,7 +4,6 @@ import Menu from './Components/menu'
 import Account from './Components/account'
 import styles from '../styles/logs.module.css'
 import Table from   './Components/table_logs'
-import Page from './Components/pagination'
 import stylesSearch from '../styles/search.module.css';
 import stylesPagi from '../styles/pagination.module.css'
 
@@ -13,6 +12,11 @@ export default function Logs(props) {
     const [dataNumber, setDataNumber] = useState(props.data);
     const [search, setSearch] = useState('');
     const [idx, setIndex] = useState(1);
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(async() => {
+        await setMounted(true);
+    }, [])
     var page = [];
 
     function countpage()
@@ -28,29 +32,28 @@ export default function Logs(props) {
     {
         const res = await fetch('http://localhost:3002/logs?search=' + search)
         const data = await res.json();
-        const arr = []
-        setDataNumber(data);
+        await setDataNumber(data);
+        console.log('data', data);
+        console.log('dataNumber', dataNumber);
         setIndex(1)
-        setDataNumber(data);
-        countpage()
     }
     
     const nexpage =  useEffect(async() => {
-        const data = dataNumber;
         const arr = []
         if (idx == '')
             idx = 1;
         var k = (idx - 1) * 10;
-        for(var i = k; i < Math.min(k + 10, data.length); i++)
-            arr.push(data[i]);
-        setDataLog(arr);
+        for(var i = k; i < Math.min(k + 10, dataNumber.length); i++)
+            arr.push(dataNumber[i]);
+        await setDataLog(arr);
+        countpage()
    }, [idx])
 
-    return (
+    return ( mounted && 
         <body>
-        <div class="flex-container">
+        <div className="flex-container">
             <Menu active="logs"></Menu>
-            <div class="main">
+            <div className="main">
                 <Account></Account>
                 <div className={styles.data}>
                     <div className={styles.data_header}>
@@ -58,18 +61,18 @@ export default function Logs(props) {
                         <div id={stylesSearch["search"]}>
                             <form action="" className={stylesSearch.form_search}>
                                 <input type="search" name="" id={stylesSearch["input_search"]} onChange={(e) => setSearch(e.target.value)} placeholder="name" aria-label="Search"/>
-                                <button className={stylesSearch.btn_search} type="button" onClick={searchItem }>Search</button>
+                                <button key="btn_click" className={stylesSearch.btn_search} type="button" onClick={searchItem }>Search</button>
                             </form>
                         </div>
                     </div>
                     <div className={styles.data_footer}>
                         <Table data={dataLog}/>
                     </div>
-                    <div class ="page">
+                    <div className ="page">
                         <form action="" id={stylesPagi["form-page"]}>
                         {
                             page.map((i) => (
-                                <button className={[stylesPagi.tag_button, i == idx ? stylesPagi.page_active : ''].join(" ")} onClick={() => setIndex(i)} type='button'><b>{i}</b> </button>
+                                <button key={i} className={[stylesPagi.tag_button, i == idx ? stylesPagi.page_active : ''].join(" ")} onClick={() => setIndex(i)} type='button'><b>{i}</b> </button>
                             ))
                         }
                         </form>
