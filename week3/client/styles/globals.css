@@ -41,6 +41,11 @@ li a:hover:not(.hover_nactive) {
   color: white;
 }
 
+.tag_i {
+  margin-left: 40%;
+  font-size: 30px;
+}
+
 .device_manager i {
   font-size: 30px;
 }

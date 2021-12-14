@@ -1,7 +1,10 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import styles from '../../styles/table.module.css'
 export default function Table_dashbroad(props) {
-    const [data, setData] = useState(props.data);
+    const [data, setData] = useState([]);
+    useEffect(() => {
+        setData(props.data);
+    },[props.data])
     var total = 0;
     return (
         <table id={styles["tb"]}>
@@ -16,7 +19,7 @@ export default function Table_dashbroad(props) {
             </thead>
             <tbody>
             {
-                props.data.map((user) => (
+                data.map((user) => (
                     total += parseInt(user.Power),
                     <tr key={"tr" + total} className={styles.tag_tr}>
                         <td key={user.device} className={styles.tag_td}>{user.device}</td>

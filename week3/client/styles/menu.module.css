@@ -49,6 +49,7 @@ li a:hover:not(.hover_nactive) {
   color: white;
 }
 
+
 @media screen and (max-width: 414px) {
 
   .tag_a {

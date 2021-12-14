@@ -1,6 +1,10 @@
+import { useState, useEffect } from 'react';
 import styles from '../../styles/table_log.module.css'
 export default function TableLog(props) {
-    const data = props.data;
+    const [data, setData] = useState([]);
+    useEffect(() => {
+        setData(props.data);
+    },[props.data])
     var total = 0;
     return (
         <table id={styles["tb"]}>
@@ -15,7 +19,7 @@ export default function TableLog(props) {
         <tbody>
         {
             data.map((user) => (
-            ++total,
+                ++total,
             <tr key={"tr" + total} className={styles.tag_tr}>
                 <td key={user.DeviceId} className={styles.tag_td}>{user.DeviceId}</td>
                 <td key={user.Name} className={styles.tag_td}>{user.Name}</td> 
@@ -26,8 +30,8 @@ export default function TableLog(props) {
         </tbody>
         <tfoot>
         <tr key="tr_footer" className={[styles.total, styles.tag_tr].join(" ")}>
-            <td key="tr_footer" className={styles.tag_td} colSpan={3}><b>Total</b></td>
-            <td key="tr_footer" className={styles.tag_td}>{total}</td>
+            <td key="td_total" className={styles.tag_td} colSpan={3}><b>Total</b></td>
+            <td key="td_sum" className={styles.tag_td}>{data.length}</td>
          </tr>
          </tfoot>
         </table>

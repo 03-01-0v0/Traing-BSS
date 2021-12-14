@@ -58,6 +58,10 @@ import {
   );
 
 export default function myChart(props) {
+    const [dataChart, setDataChart] = useState([]);
+    useEffect(() => {
+        setDataChart(props.data);
+    },[props.data])
     const fill_device = new Set();
     var xValues = [];
     var yValues = [];
@@ -77,7 +81,7 @@ export default function myChart(props) {
         "#ffbe76",
         "#535c68"
     ];
-    props.data.map((e) => (
+    dataChart.map((e) => (
         fill_device.add(e.device)
     ))
     fill_device.forEach(e => {

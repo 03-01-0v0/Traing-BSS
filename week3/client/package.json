@@ -2,6 +2,7 @@
   "name": "client",
   "private": true,
   "scripts": {
+    "lint": "next lint",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",

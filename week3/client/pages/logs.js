@@ -25,28 +25,32 @@ export default function Logs(props) {
         var cnt = Math.ceil(dataNumber.length / 10);
         for (var i = 1; i <= cnt; i++)
             page.push(i);
-        console.log("cnt", cnt);
     }
     countpage()
     async function searchItem()
     {
         const res = await fetch('http://localhost:3002/logs?search=' + search)
         const data = await res.json();
-        await setDataNumber(data);
-        console.log('data', data);
-        console.log('dataNumber', dataNumber);
+        const arr = []
+        var idx = 1;
+        var k = (idx - 1) * 10;
+        for(var i = k; i < Math.min(k + 10, data.length); i++)
+            arr.push(data[i]);
+        setDataLog(arr)
+        setDataNumber(data);
+        countpage()
         setIndex(1)
     }
+
     
-    const nexpage =  useEffect(async() => {
+    const nexpage =  useEffect(() => {
         const arr = []
         if (idx == '')
             idx = 1;
         var k = (idx - 1) * 10;
         for(var i = k; i < Math.min(k + 10, dataNumber.length); i++)
             arr.push(dataNumber[i]);
-        await setDataLog(arr);
-        countpage()
+        setDataLog(arr);
    }, [idx])
 
     return ( mounted && 
