@@ -33,8 +33,8 @@ export default function Table_dashbroad(props) {
             </tbody>
             <tfoot>
             <tr key="tr_footer" className={[styles.total, styles.tag_tr].join(" ")}>
-                <td key="tr_footer" className={styles.tag_td} colSpan={4}><b>Total</b></td>
-                <td key="tr_footer" className={styles.tag_td}>{total}</td>
+                <td key="td_total" className={styles.tag_td} colSpan={4}><b>Total</b></td>
+                <td key="td_sum" className={styles.tag_td}>{total}</td>
             </tr>
             </tfoot>
         </table>
