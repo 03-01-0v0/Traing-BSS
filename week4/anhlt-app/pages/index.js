@@ -97,6 +97,9 @@ export default function Index() {
               label="Priority"
               type="number"
               value={valuePriority}
+              pattern={"[0-9]{1,2}"}
+              min={"0"}
+              max={"99"}
               onChange={handleChangePriority}
               autoComplete="off"
             />
