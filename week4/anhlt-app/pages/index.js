@@ -1,120 +1,173 @@
-import { Heading, Page, Frame, Card, FormLayout, TextField, Select, RadioButton, Stack } from "@shopify/polaris";
-import React, {useCallback, useState} from "react";
-import styles from '../Styles/index.module.css'
-
-export default function Index()
-{
-
+import {
+  Heading,
+  Page,
+  Frame,
+  Card,
+  FormLayout,
+  TextField,
+  Select,
+  RadioButton,
+  Stack,
+  ChoiceList,
+} from "@shopify/polaris";
+import { ResourcePicker } from "@shopify/app-bridge-react";
+import React, { useCallback, useState } from "react";
+import SpecificProduct from "./components/SpecificProduct";
+export default function Index() {
+  // Name
+  const [name, setName] = useState("");
+  const handleChangeName = useCallback((name) => setName(name), []);
+  // End Name
   // General Information Status
-  const [selected, setSelected] = useState('today');
+  const [selected, setSelected] = useState("");
   const handleSelectChange = useCallback((value) => setSelected(value), []);
 
   const options = [
-    {label: 'Enable', value: 'enable'},
-    {label: 'Disable', value: 'disable'}
+    { label: "Enable", value: "enable" },
+    { label: "Disable", value: "disable" },
   ];
   // End General Information Status
 
-  const [valuePriority, setValuePriority] = useState('0');
+  const [valuePriority, setValuePriority] = useState("0");
 
-  const handleChangePriority = useCallback((newValue) => setValue(newValue), []);
+  const handleChangePriority = useCallback(
+    (valuePriority) => setValuePriority(valuePriority),
+    []
+  );
 
   // Apply products radio button
-  const [value, setValue] = useState('disabled');
+  const [value, setValue] = useState("");
 
-  const handleChange = useCallback(
-    (_checked, newValue) => setValue(newValue),
-    [],
-  );
+  const handleChange = useCallback((value) => {
+    setValue(value, []);
+  });
   // End Apply products radio button
 
+  // Radio Button in Apply to Products
+
+  const [valueApplyProducts, setValueApplyProducts] = useState("");
+  const handleChangeValueApplyProducts = useCallback(
+    (valueApplyProducts) => setValueApplyProducts(valueApplyProducts),
+    []
+  );
+
+  // End Raido Button in Aplly to Products
+
+  // Amount in Custom Prices
+  const [valueAmount, setValueAmount] = useState("0");
+  const handleChangeAmount = useCallback(
+    (valueAmount) => setValueAmount(valueAmount),
+    []
+  );
+  // End Amount in Custom Prices
+
+  // SpecificProduct
+  const renderChildrenSpecificProduct = useCallback(
+    (isSelected) =>
+      isSelected && (
+        <>
+          <SpecificProduct />
+          <br />
+        </>
+      )
+  );
+  // End Specific Product
+
+  // Product Tags
+
+  const renderChildrenProductTags = useCallback(
+    (isSelected) => isSelected && <></>
+  );
+
+  // End Product Tags
+
   return (
-      <Frame>
-        <Heading>New Pricing Rule</Heading>
-        <Page>
-          <Card title="General Information" sectioned>
-            <FormLayout>
-              <TextField label="Name" onChange={() => {}} autoComplete="off" />
-              <TextField
-                label="Priority"
-                type="number"
-                value={valuePriority}
-                onChange={handleChangePriority}
-                autoComplete="off"
-              />
-              <Select
-                label="Status"
-                options={options}
-                onChange={handleSelectChange}
-                value={selected}
-              />
-            </FormLayout>
-          </Card>
-        </Page>
-        <Page>
-          <Card title="Apply to Products" >
-            <Stack vertical>
-              <RadioButton
-                label="All products"
-                checked={value === 'all products'}
-                id="all products"
-                name="accounts"
-                onChange={handleChange}
-              />
-              <RadioButton
-                label="Specific products"
-                id="specific products"
-                name="accounts"
-                checked={value === 'specific products'}
-                onChange={handleChange}
-              />
-              <RadioButton
-                label="Product collections"
-                id="product collections"
-                name="accounts"
-                checked={value === 'product collections'}
-                onChange={handleChange}
-              />
-              <RadioButton
-                label="Product Tags"
-                id="product tags"
-                name="accounts"
-                checked={value === 'product tags'}
-                onChange={handleChange}
-              />
-            </Stack>
-          </Card>
-        </Page>
-        <Page>
-          <Card title="Custom Prices" >
-            <Stack vertical>
-              <RadioButton
-                label="Apply a price to selected products"
-                checked={value === 'apply selected products'}
-                id="apply selected products"
-                name="accounts"
-                onChange={handleChange}
-              />
-              <RadioButton
-                label="Decrease a fixed amount of the original prices of selected products"
-                id="Decrease a fixed amount"
-                name="accounts"
-                checked={value === 'Decrease a fixed amount'}
-                onChange={handleChange}
-              />
-              <RadioButton
-                label="Decrease the original prices of selected products by a percentage (%)"
-                id="Decrease the original prices"
-                name="accounts"
-                checked={value === 'Decrease the original prices'}
-                onChange={handleChange}
-              />
-
-            </Stack>
-          </Card>
-        </Page>
-      </Frame>
-    )
+    <Frame>
+      <Heading>New Pricing Rule</Heading>
+      <Page>
+        <Card title="General Information" sectioned>
+          <FormLayout>
+            <TextField
+              label="Name"
+              value={name}
+              onChange={handleChangeName}
+              autoComplete="off"
+            />
+            <TextField
+              label="Priority"
+              type="number"
+              value={valuePriority}
+              onChange={handleChangePriority}
+              autoComplete="off"
+            />
+            <Select
+              label="Status"
+              options={options}
+              onChange={handleSelectChange}
+              value={selected}
+            />
+          </FormLayout>
+        </Card>
+      </Page>
+      <Page>
+        <Card title="Apply to Products" sectioned>
+          <FormLayout>
+            <ChoiceList
+              title=""
+              choices={[
+                { label: "All products", value: "hidden" },
+                {
+                  label: "Specific products",
+                  value: "Specific products",
+                  renderChildren: renderChildrenSpecificProduct,
+                },
+                { label: "Product collections", value: "Product collections" },
+                {
+                  label: "Product Tags",
+                  value: "Product Tags",
+                  renderChildren: renderChildrenProductTags,
+                },
+              ]}
+              selected={value}
+              onChange={handleChange}
+            />
+          </FormLayout>
+        </Card>
+      </Page>
+      <Page>
+        <Card title="Custom Prices" sectioned>
+          <FormLayout>
+            <ChoiceList
+              title=""
+              choices={[
+                {
+                  label: "Apply a price to selected products",
+                  value: "apply a price",
+                },
+                {
+                  label:
+                    "Decrease a fixed amount of the original prices of selected products",
+                  value: "fixed amount",
+                },
+                {
+                  label:
+                    "Decrease the original prices of selected products by a percentage (%)",
+                  value: "original prices",
+                },
+              ]}
+              selected={valueApplyProducts}
+              onChange={handleChangeValueApplyProducts}
+            />
+            <TextField
+              label="Amount"
+              type="number"
+              value={valueAmount}
+              onChange={handleChangeAmount}
+              autoComplete="off"
+            />
+          </FormLayout>
+        </Card>
+      </Page>
+    </Frame>
+  );
 }
-
-
