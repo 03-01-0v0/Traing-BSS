@@ -1,43 +1,112 @@
-import { useCallback, useRef, useState } from "react";
-import { Modal } from "@shopify/app-bridge-react";
-import { TextField } from "@shopify/polaris";
+import { useCallback, useState } from "react";
+import { Button } from "@shopify/polaris";
+import { ResourcePicker } from "@shopify/app-bridge-react";
+import store from "store-js";
+import gql from "graphql-tag";
+import { Query } from "react-apollo";
+import {
+  ResourceList,
+  Card,
+  Stack,
+  TextStyle,
+  Thumbnail,
+} from "@shopify/polaris";
 
 export default function SpecificProduct() {
-  const [active, setActive] = useState(false);
-  const [value, setValue] = useState("");
-  const handleChange = useCallback(() => setActive(!active), []);
-  const search = useCallback(
-    (value) => {
-      setValue(value);
-      handleChange();
-    },
-    [value]
-  );
-  const activator = (
-    <TextField
-      // value={name}
-      label="Search product"
-      labelHidden
-      placeholder="Search product"
-      onChange={search}
-    />
-  );
+  const [open, setOpen] = useState(false);
+
+  const handleSearchProduct = useCallback(() => setOpen(true), []);
+
+  const handleSelectionSpecialProducts = useCallback((resources) => {
+    const idsFromResources = resources.selection.map((product) => product.id);
+    setOpen(false);
+    store.set("ids", idsFromResources);
+  }, []);
+
+  //
+  const GET_PRODUCTS_BY_ID = gql`
+    query getProducts($ids: [ID!]!) {
+      nodes(ids: $ids) {
+        ... on Product {
+          title
+          handle
+          descriptionHtml
+          id
+          images(first: 1) {
+            edges {
+              node {
+                originalSrc
+                altText
+              }
+            }
+          }
+        }
+      }
+    }
+  `;
+
+  //
   return (
     <>
-      <Modal
-        activator={activator}
-        open={active}
-        onClose={handleChange}
-        title="SELECT SPECIFIC PRODUCTS"
-        primaryAction={{
-          content: "Select product",
-          onAction: handleChange,
+      <br />
+      <Button textAlign={"left"} fullWidth onClick={handleSearchProduct}>
+        Search Product
+      </Button>
+      <br />
+      <ResourcePicker
+        resourceType="Product"
+        showVariants={false}
+        open={open}
+        onSelection={(resources) => handleSelectionSpecialProducts(resources)}
+        onCancel={() => setOpen(false)}
+      ></ResourcePicker>
+      <Query query={GET_PRODUCTS_BY_ID} variables={{ ids: store.get("ids") }}>
+        {({ data, loading, error }) => {
+          if (loading) return <div>Loading...</div>;
+          if (error) return <div>{error.message}</div>;
+          return (
+            <ResourceList
+              resourceName={{ singular: "Product", plural: "Products" }}
+              items={data.nodes}
+              renderItem={(item) => {
+                const media = (
+                  <Thumbnail
+                    source={
+                      item.images.edges[0]
+                        ? item.images.edges[0].node.originalSrc
+                        : ""
+                    }
+                    alt={
+                      item.images.edges[0]
+                        ? item.images.edges[0].node.altText
+                        : ""
+                    }
+                  ></Thumbnail>
+                );
+                return (
+                  <Card>
+                    <ResourceList.Item
+                      id={item.id}
+                      media={media}
+                      onClick={() => store.set("item", item)}
+                    >
+                      <Stack>
+                        <Stack.Item fill>
+                          <h3>
+                            <TextStyle variation="strong">
+                              {item.title}
+                            </TextStyle>
+                          </h3>
+                        </Stack.Item>
+                      </Stack>
+                    </ResourceList.Item>
+                  </Card>
+                );
+              }}
+            ></ResourceList>
+          );
         }}
-      >
-        <Modal.Section>
-          <p></p>
-        </Modal.Section>
-      </Modal>
+      </Query>
     </>
   );
 }

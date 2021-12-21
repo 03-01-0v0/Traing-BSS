@@ -1,5 +1,4 @@
 import {
-  Heading,
   Page,
   Frame,
   Card,
@@ -10,9 +9,11 @@ import {
   Stack,
   ChoiceList,
 } from "@shopify/polaris";
-import { ResourcePicker } from "@shopify/app-bridge-react";
 import React, { useCallback, useState } from "react";
 import SpecificProduct from "./components/SpecificProduct";
+import ProductCollections from "./components/ProductCollections";
+import ProductTags from "./components/ProductTags";
+
 export default function Index() {
   // Name
   const [name, setName] = useState("");
@@ -36,11 +37,25 @@ export default function Index() {
   );
 
   // Apply products radio button
-  const [value, setValue] = useState("");
-
-  const handleChange = useCallback((value) => {
-    setValue(value, []);
-  });
+  const [applytoProductChoice, setApplytoProductChoice] = useState(
+    "All_products"
+  );
+  const handleChange = useCallback(
+    (value) => setApplytoProductChoice(value),
+    []
+  );
+  const renderChildrenSpecificProduct = useCallback(
+    (isSelected) => isSelected && <SpecificProduct />,
+    []
+  );
+  const renderChildrenProductCollections = useCallback(
+    (isSelected) => isSelected && <ProductCollections />,
+    []
+  );
+  const renderChildrenProductTags = useCallback(
+    (isSelected) => isSelected && <ProductTags />,
+    []
+  );
   // End Apply products radio button
 
   // Radio Button in Apply to Products
@@ -61,30 +76,13 @@ export default function Index() {
   );
   // End Amount in Custom Prices
 
-  // SpecificProduct
-  const renderChildrenSpecificProduct = useCallback(
-    (isSelected) =>
-      isSelected && (
-        <>
-          <SpecificProduct />
-          <br />
-        </>
-      )
-  );
-  // End Specific Product
+  // renderChildren Apply to Product
 
-  // Product Tags
-
-  const renderChildrenProductTags = useCallback(
-    (isSelected) => isSelected && <></>
-  );
-
-  // End Product Tags
+  // end renderChildren Apply to Product
 
   return (
     <Frame>
-      <Heading>New Pricing Rule</Heading>
-      <Page>
+      <Page title="New Pricing Rule">
         <Card title="General Information" sectioned>
           <FormLayout>
             <TextField
@@ -97,9 +95,10 @@ export default function Index() {
               label="Priority"
               type="number"
               value={valuePriority}
-              pattern={"[0-9]{1,2}"}
-              min={"0"}
-              max={"99"}
+              pattern="[0-9]{1,2}"
+              min="0"
+              max="99"
+              maxLength={2}
               onChange={handleChangePriority}
               autoComplete="off"
             />
@@ -118,20 +117,24 @@ export default function Index() {
             <ChoiceList
               title=""
               choices={[
-                { label: "All products", value: "hidden" },
+                { label: "All products", value: "All_products" },
                 {
                   label: "Specific products",
-                  value: "Specific products",
+                  value: "Specific_products",
                   renderChildren: renderChildrenSpecificProduct,
                 },
-                { label: "Product collections", value: "Product collections" },
+                {
+                  label: "Product collections",
+                  value: "Product_collections",
+                  renderChildren: renderChildrenProductCollections,
+                },
                 {
                   label: "Product Tags",
-                  value: "Product Tags",
+                  value: "Product_Tags",
                   renderChildren: renderChildrenProductTags,
                 },
               ]}
-              selected={value}
+              selected={applytoProductChoice}
               onChange={handleChange}
             />
           </FormLayout>
