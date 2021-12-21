@@ -5,27 +5,12 @@ import { useCallback, useState } from "react";
 import { Autocomplete, Stack, TextContainer, Tag } from "@shopify/polaris";
 
 export default function ProductTags() {
-  const GET_TAGS = gql`
-    {
-      tags(first: 10) {
-        edges {
-          node {
-            id
-            title
-            image {
-              id
-            }
-          }
-        }
-      }
-    }
-  `;
   const deselectedProductTag = [
-    { value: "rustic", label: "Rustic" },
-    { value: "antique", label: "Antique" },
-    { value: "vinyl", label: "Vinyl" },
-    { value: "vintage", label: "Vintage" },
-    { value: "refurbished", label: "Refurbished" },
+    { value: "gold", label: "Gold" },
+    { value: "black", label: "Black" },
+    { value: "blue", label: "Blue" },
+    { value: "white", label: "White" },
+    { value: "pink", label: "Pink" },
   ];
   const [selectProductTags, setSelectProductTags] = useState([]);
   const [inputValue, setInputValue] = useState("");
@@ -33,12 +18,12 @@ export default function ProductTags() {
 
   const updateTextProductTags = useCallback(
     (value) => {
-      selectProductTags(value);
+      setInputValue(value);
       if (value == "") {
-        selectProductTags(deselectedProductTag);
+        setOptions(deselectedProductTag);
         return;
       }
-      const filterRegexTags = new RegExp(value, "1");
+      const filterRegexTags = new RegExp(value, "i");
       const resultOptionTags = options.filter((e) =>
         e.label.match(filterRegexTags)
       );
@@ -51,16 +36,16 @@ export default function ProductTags() {
     (tag) => () => {
       const optionTags = [...selectProductTags];
       optionTags.splice(optionTags.indexOf(tag, 1));
-      selectProductTags(optionTags);
+      setSelectProductTags(optionTags);
     },
     [selectProductTags]
   );
-  const tagsMarkup = selectProductTags.map((e) => {
+  const tagsMarkup = selectProductTags.map((option) => {
     var taglb = "";
-    taglb = e.replace("_", " ");
+    taglb = option.replace("_", " ");
     taglb = titleCase(taglb);
     return (
-      <Tag key={`option${e}`} onRemove={removeTag(e)}>
+      <Tag key={`option${option}`} onRemove={removeTag(option)}>
         {taglb}
       </Tag>
     );
@@ -84,7 +69,6 @@ export default function ProductTags() {
 
   return (
     <>
-      <Query query={GET_TAGS}></Query>
       <Autocomplete
         allowMultiple
         options={options}
