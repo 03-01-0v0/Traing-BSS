@@ -21,11 +21,11 @@ export default function ProductTags() {
     }
   `;
   const deselectedProductTag = [
-    { value: "rustic", label: "Rustic" },
-    { value: "antique", label: "Antique" },
-    { value: "vinyl", label: "Vinyl" },
-    { value: "vintage", label: "Vintage" },
-    { value: "refurbished", label: "Refurbished" },
+    { value: "gold", label: "Gold" },
+    { value: "black", label: "Black" },
+    { value: "blue", label: "Blue" },
+    { value: "white", label: "White" },
+    { value: "pink", label: "Pink" },
   ];
   const [selectProductTags, setSelectProductTags] = useState([]);
   const [inputValue, setInputValue] = useState("");
