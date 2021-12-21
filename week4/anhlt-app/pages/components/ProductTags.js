@@ -5,6 +5,22 @@ import { useCallback, useState } from "react";
 import { Autocomplete, Stack, TextContainer, Tag } from "@shopify/polaris";
 
 export default function ProductTags() {
+  const GET_TAGS = gql`
+    {
+      collections(first: 10) {
+        edges {
+          node {
+            id
+            title
+            image {
+              id
+            }
+          }
+        }
+      }
+    }
+  `;
+
   const deselectedProductTag = [
     { value: "gold", label: "Gold" },
     { value: "black", label: "Black" },
@@ -69,14 +85,29 @@ export default function ProductTags() {
 
   return (
     <>
-      <Autocomplete
-        allowMultiple
-        options={options}
-        selected={selectProductTags}
-        textField={textFieldProductTags}
-        onSelect={setSelectProductTags}
-        listTitle="Suggested Tags"
-      />
+      <Query query={GET_TAGS}>
+        {({ data, loading, error }) => {
+          if (loading) return <div>Loading...</div>;
+          if (error) return <div>{error.message}</div>;
+          data.collections.edges.forEach((d) => {
+            deselectedProductTag.push({
+              value: d.node.title,
+              label: d.node.title,
+              image: d.node.image,
+            });
+          });
+          return (
+            <Autocomplete
+              allowMultiple
+              options={options}
+              selected={selectProductTags}
+              textField={textFieldProductTags}
+              onSelect={selectProductTags}
+              listTitle="Suggested Collections"
+            />
+          );
+        }}
+      </Query>
       <br />
       <TextContainer>
         <Stack>{tagsMarkup}</Stack>

@@ -2,6 +2,7 @@ import { Tag, Autocomplete, TextContainer, Stack } from "@shopify/polaris";
 import React, { useCallback, useState } from "react";
 import gql from "graphql-tag";
 import store from "store-js";
+import { Query } from "react-apollo";
 
 export default function ProductCollections() {
   const GET_COLLECTIONS = gql`
@@ -78,16 +79,40 @@ export default function ProductCollections() {
     />
   );
 
+  <Autocomplete
+    allowMultiple
+    options={options}
+    selected={selectCollections}
+    textField={textFieldProductCollection}
+    onSelect={setSelectCollections}
+    listTitle="Suggested Collections"
+  />;
+
   return (
     <>
-      <Autocomplete
-        allowMultiple
-        options={options}
-        selected={selectCollections}
-        textField={textFieldProductCollection}
-        onSelect={setSelectCollections}
-        listTitle="Suggested Collections"
-      />
+      <Query query={GET_COLLECTIONS}>
+        {({ data, loading, error }) => {
+          if (loading) return <div>Loading...</div>;
+          if (error) return <div>{error.message}</div>;
+          data.collections.edges.forEach((d) => {
+            deselectedProductCollections.push({
+              value: d.node.title,
+              label: d.node.title,
+              image: d.node.image,
+            });
+          });
+          return (
+            <Autocomplete
+              allowMultiple
+              options={options}
+              selected={selectCollections}
+              textField={textFieldProductCollection}
+              onSelect={setSelectCollections}
+              listTitle="Suggested Collections"
+            />
+          );
+        }}
+      </Query>
       <br />
       <TextContainer>
         <Stack>{CollectionMarkup}</Stack>
