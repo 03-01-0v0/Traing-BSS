@@ -45,7 +45,7 @@ export default function Index() {
     "All_products"
   );
   const handleChange = useCallback(
-    (value) => setApplytoProductChoice(value),
+    async (value) => setApplytoProductChoice(value),
     []
   );
   const renderChildrenSpecificProduct = useCallback(
@@ -62,15 +62,14 @@ export default function Index() {
   );
   // End Apply products radio button
 
-  // Radio Button in Apply to Products
+  // Radio Button in Custom Price
 
-  const [valueApplyProducts, setValueApplyProducts] = useState("");
-  const handleChangeValueApplyProducts = useCallback(
-    (valueApplyProducts) => setValueApplyProducts(valueApplyProducts),
-    []
-  );
+  const [valueApplyProducts, setValueApplyProducts] = useState("apply_price");
+  const handleChangeValueCustomPrices = useCallback((valueApplyProducts) => {
+    setValueApplyProducts(valueApplyProducts), setValueAmount("0");
+  }, []);
 
-  // End Radio Button in Apply to Products
+  // End Radio Button in Custom Price
 
   // Amount in Custom Prices
   const [valueAmount, setValueAmount] = useState("0");
@@ -79,6 +78,8 @@ export default function Index() {
     []
   );
   // End Amount in Custom Prices
+
+  const [pricing, setPricing] = useState("");
 
   return (
     <Frame>
@@ -161,7 +162,7 @@ export default function Index() {
                     },
                   ]}
                   selected={valueApplyProducts}
-                  onChange={handleChangeValueApplyProducts}
+                  onChange={handleChangeValueCustomPrices}
                 />
                 <TextField
                   label="Amount"
@@ -169,9 +170,11 @@ export default function Index() {
                   value={valueAmount}
                   onChange={handleChangeAmount}
                   min={0}
-                  max={50}
+                  max={100}
                   error={
-                    valueAmount > 100
+                    valueAmount === ""
+                      ? "Please, Enter Value Amount"
+                      : valueAmount > 100
                       ? "Amount should not be greater than 100"
                       : valueAmount < 0
                       ? "Amount should not be less than 0"
@@ -183,7 +186,7 @@ export default function Index() {
             </Card>
           </Layout.Section>
           <Layout.Section secondary>
-            <ProductPricing />
+            <ProductPricing data={applytoProductChoice} />
           </Layout.Section>
         </Layout>
       </Page>

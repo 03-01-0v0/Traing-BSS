@@ -19,7 +19,6 @@ export default function SpecificProduct() {
 
   const handleSelectionSpecialProducts = useCallback((resources) => {
     const idsFromResources = resources.selection.map((product) => product.id);
-    console.log("idsFromResources :", idsFromResources);
     setOpen(false);
     store.set("ids", idsFromResources);
   }, []);
