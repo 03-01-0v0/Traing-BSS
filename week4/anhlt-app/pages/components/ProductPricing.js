@@ -76,8 +76,6 @@ export default function ProductPricing(props) {
             tmp.push({ x });
           });
 
-          // console.log("productPricings1", tmp)
-          // console.log("props", props.applytoProductChoice)
           productPricings = [];
           tmp.forEach((e) => productPricings.push(Object.values(e)));
           return (

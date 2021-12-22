@@ -186,7 +186,7 @@ export default function Index() {
             </Card>
           </Layout.Section>
           <Layout.Section secondary>
-            <ProductPricing data={applytoProductChoice} />
+            <ProductPricing />
           </Layout.Section>
         </Layout>
       </Page>
