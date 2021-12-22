@@ -79,15 +79,6 @@ export default function ProductCollections() {
     />
   );
 
-  <Autocomplete
-    allowMultiple
-    options={options}
-    selected={selectCollections}
-    textField={textFieldProductCollection}
-    onSelect={setSelectCollections}
-    listTitle="Suggested Collections"
-  />;
-
   return (
     <>
       <Query query={GET_COLLECTIONS}>

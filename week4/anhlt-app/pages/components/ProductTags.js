@@ -7,27 +7,20 @@ import { Autocomplete, Stack, TextContainer, Tag } from "@shopify/polaris";
 export default function ProductTags() {
   const GET_TAGS = gql`
     {
-      collections(first: 10) {
+      products(query: "tag:", first: 5, sortKey: TITLE) {
         edges {
           node {
             id
             title
-            image {
-              id
-            }
+            tags
           }
         }
       }
     }
   `;
 
-  const deselectedProductTag = [
-    { value: "gold", label: "Gold" },
-    { value: "black", label: "Black" },
-    { value: "blue", label: "Blue" },
-    { value: "white", label: "White" },
-    { value: "pink", label: "Pink" },
-  ];
+  const fill = new Set();
+  const deselectedProductTag = [];
   const [selectProductTags, setSelectProductTags] = useState([]);
   const [inputValue, setInputValue] = useState("");
   const [options, setOptions] = useState(deselectedProductTag);
@@ -89,11 +82,13 @@ export default function ProductTags() {
         {({ data, loading, error }) => {
           if (loading) return <div>Loading...</div>;
           if (error) return <div>{error.message}</div>;
-          data.collections.edges.forEach((d) => {
-            deselectedProductTag.push({
-              value: d.node.title,
-              label: d.node.title,
-              image: d.node.image,
+          data.products.edges.forEach((d) => {
+            d.node.tags.forEach((tag) => fill.add(tag));
+            fill.forEach((tag) => {
+              deselectedProductTag.push({
+                value: tag,
+                label: tag,
+              });
             });
           });
           return (

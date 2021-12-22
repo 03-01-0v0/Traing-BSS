@@ -59,7 +59,7 @@ export default function SpecificProduct() {
         open={open}
         onSelection={(resources) => handleSelectionSpecialProducts(resources)}
         onCancel={() => setOpen(false)}
-      ></ResourcePicker>
+      />
       <Query query={GET_PRODUCTS_BY_ID} variables={{ ids: store.get("ids") }}>
         {({ data, loading, error }) => {
           if (loading) return <div>Loading...</div>;
@@ -81,7 +81,7 @@ export default function SpecificProduct() {
                         ? item.images.edges[0].node.altText
                         : ""
                     }
-                  ></Thumbnail>
+                  />
                 );
                 return (
                   <Card>
@@ -103,7 +103,7 @@ export default function SpecificProduct() {
                   </Card>
                 );
               }}
-            ></ResourceList>
+            />
           );
         }}
       </Query>
