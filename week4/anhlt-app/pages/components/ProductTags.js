@@ -33,7 +33,7 @@ export default function ProductTags() {
         return;
       }
       const filterRegexTags = new RegExp(value, "i");
-      const resultOptionTags = options.filter((e) =>
+      const resultOptionTags = deselectedProductTag.filter((e) =>
         e.label.match(filterRegexTags)
       );
       setOptions(resultOptionTags);
@@ -97,7 +97,7 @@ export default function ProductTags() {
               options={options}
               selected={selectProductTags}
               textField={textFieldProductTags}
-              onSelect={selectProductTags}
+              onSelect={setSelectProductTags}
               listTitle="Suggested Collections"
             />
           );

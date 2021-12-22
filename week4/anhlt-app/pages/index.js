@@ -1,18 +1,22 @@
 import {
+  Heading,
   Page,
   Frame,
   Card,
   FormLayout,
   TextField,
   Select,
-  RadioButton,
-  Stack,
+  Layout,
   ChoiceList,
+  DataTable,
 } from "@shopify/polaris";
 import React, { useCallback, useState } from "react";
 import SpecificProduct from "./components/SpecificProduct";
 import ProductCollections from "./components/ProductCollections";
 import ProductTags from "./components/ProductTags";
+import ProductPricing from "./components/ProductPricing";
+import store from "store-js";
+import gql from "graphql-tag";
 
 export default function Index() {
   // Name
@@ -66,7 +70,7 @@ export default function Index() {
     []
   );
 
-  // End Raido Button in Aplly to Products
+  // End Radio Button in Apply to Products
 
   // Amount in Custom Prices
   const [valueAmount, setValueAmount] = useState("0");
@@ -76,103 +80,112 @@ export default function Index() {
   );
   // End Amount in Custom Prices
 
-  // renderChildren Apply to Product
-
-  // end renderChildren Apply to Product
-
   return (
     <Frame>
       <Page title="New Pricing Rule">
-        <Card title="General Information" sectioned>
-          <FormLayout>
-            <TextField
-              label="Name"
-              value={name}
-              onChange={handleChangeName}
-              autoComplete="off"
-            />
-            <TextField
-              label="Priority"
-              type="number"
-              value={valuePriority}
-              pattern="[0-9]{1,2}"
-              min="0"
-              max="99"
-              maxLength={2}
-              onChange={handleChangePriority}
-              autoComplete="off"
-            />
-            <Select
-              label="Status"
-              options={options}
-              onChange={handleSelectChange}
-              value={selected}
-            />
-          </FormLayout>
-        </Card>
-      </Page>
-      <Page>
-        <Card title="Apply to Products" sectioned>
-          <FormLayout>
-            <ChoiceList
-              title=""
-              choices={[
-                { label: "All products", value: "All_products" },
-                {
-                  label: "Specific products",
-                  value: "Specific_products",
-                  renderChildren: renderChildrenSpecificProduct,
-                },
-                {
-                  label: "Product collections",
-                  value: "Product_collections",
-                  renderChildren: renderChildrenProductCollections,
-                },
-                {
-                  label: "Product Tags",
-                  value: "Product_Tags",
-                  renderChildren: renderChildrenProductTags,
-                },
-              ]}
-              selected={applytoProductChoice}
-              onChange={handleChange}
-            />
-          </FormLayout>
-        </Card>
-      </Page>
-      <Page>
-        <Card title="Custom Prices" sectioned>
-          <FormLayout>
-            <ChoiceList
-              title=""
-              choices={[
-                {
-                  label: "Apply a price to selected products",
-                  value: "apply a price",
-                },
-                {
-                  label:
-                    "Decrease a fixed amount of the original prices of selected products",
-                  value: "fixed amount",
-                },
-                {
-                  label:
-                    "Decrease the original prices of selected products by a percentage (%)",
-                  value: "original prices",
-                },
-              ]}
-              selected={valueApplyProducts}
-              onChange={handleChangeValueApplyProducts}
-            />
-            <TextField
-              label="Amount"
-              type="number"
-              value={valueAmount}
-              onChange={handleChangeAmount}
-              autoComplete="off"
-            />
-          </FormLayout>
-        </Card>
+        <Layout>
+          <Layout.Section>
+            <Card title="General Information" sectioned>
+              <FormLayout>
+                <TextField
+                  label="Name"
+                  value={name}
+                  onChange={handleChangeName}
+                  autoComplete="off"
+                  error={name === "" ? "Please, Enter Name" : ""}
+                />
+                <TextField
+                  label="Priority"
+                  type="number"
+                  value={valuePriority}
+                  pattern="[0-9]{1,2}"
+                  min="0"
+                  max="99"
+                  error={valuePriority === "" ? "Please, Enter Priority" : ""}
+                  onChange={handleChangePriority}
+                  autoComplete="off"
+                />
+                <Select
+                  label="Status"
+                  options={options}
+                  onChange={handleSelectChange}
+                  value={selected}
+                />
+              </FormLayout>
+            </Card>
+            <Card title="Apply to Products" sectioned>
+              <FormLayout>
+                <ChoiceList
+                  title=""
+                  choices={[
+                    { label: "All products", value: "All_products" },
+                    {
+                      label: "Specific products",
+                      value: "Specific_products",
+                      renderChildren: renderChildrenSpecificProduct,
+                    },
+                    {
+                      label: "Product collections",
+                      value: "Product_collections",
+                      renderChildren: renderChildrenProductCollections,
+                    },
+                    {
+                      label: "Product Tags",
+                      value: "Product_Tags",
+                      renderChildren: renderChildrenProductTags,
+                    },
+                  ]}
+                  selected={applytoProductChoice}
+                  onChange={handleChange}
+                />
+              </FormLayout>
+            </Card>
+            <Card title="Custom Prices" sectioned>
+              <FormLayout>
+                <ChoiceList
+                  title=""
+                  choices={[
+                    {
+                      label: "Apply a price to selected products",
+                      value: "apply_price",
+                    },
+                    {
+                      label:
+                        "Decrease a fixed amount of the original prices of selected products",
+                      value: "fixed_amount",
+                    },
+                    {
+                      label:
+                        "Decrease the original prices of selected products by a percentage (%)",
+                      value: "percentage_prices",
+                    },
+                  ]}
+                  selected={valueApplyProducts}
+                  onChange={handleChangeValueApplyProducts}
+                />
+                <TextField
+                  label="Amount"
+                  type="number"
+                  value={valueAmount}
+                  onChange={handleChangeAmount}
+                  min={0}
+                  max={50}
+                  error={
+                    valueAmount > 100
+                      ? "Amount should not be greater than 100"
+                      : valueAmount < 0
+                      ? "Amount should not be less than 0"
+                      : ""
+                  }
+                  autoComplete="off"
+                />
+              </FormLayout>
+            </Card>
+          </Layout.Section>
+          <Layout.Section secondary>
+            <ProductPricing />
+          </Layout.Section>
+        </Layout>
       </Page>
     </Frame>
   );
