@@ -44,12 +44,14 @@ export default function ProductTags() {
   const removeTag = useCallback(
     (tag) => () => {
       const optionTags = [...selectProductTags];
-      optionTags.splice(optionTags.indexOf(tag, 1));
+      optionTags.splice(optionTags.indexOf(tag), 1);
+      store.set("collection", optionTags);
       setSelectProductTags(optionTags);
     },
     [selectProductTags]
   );
   const tagsMarkup = selectProductTags.map((option) => {
+    store.set("tags", selectProductTags);
     var taglb = "";
     taglb = option.replace("_", " ");
     taglb = titleCase(taglb);

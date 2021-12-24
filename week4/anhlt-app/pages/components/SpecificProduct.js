@@ -12,14 +12,15 @@ import {
   Thumbnail,
 } from "@shopify/polaris";
 
-export default function SpecificProduct() {
+export default function SpecificProduct(props) {
   const [open, setOpen] = useState(false);
 
   const handleSearchProduct = useCallback(() => setOpen(true), []);
 
-  const handleSelectionSpecialProducts = useCallback((resources) => {
+  const handleSelectionSpecialProducts = useCallback(async (resources) => {
     const idsFromResources = resources.selection.map((product) => product.id);
     setOpen(false);
+    await props.childtoParent(idsFromResources);
     store.set("ids", idsFromResources);
   }, []);
 
@@ -44,7 +45,6 @@ export default function SpecificProduct() {
       }
     }
   `;
-
   //
   return (
     <>

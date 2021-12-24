@@ -1,5 +1,4 @@
 import {
-  Heading,
   Page,
   Frame,
   Card,
@@ -8,7 +7,6 @@ import {
   Select,
   Layout,
   ChoiceList,
-  DataTable,
 } from "@shopify/polaris";
 import React, { useCallback, useState } from "react";
 import SpecificProduct from "./components/SpecificProduct";
@@ -16,7 +14,6 @@ import ProductCollections from "./components/ProductCollections";
 import ProductTags from "./components/ProductTags";
 import ProductPricing from "./components/ProductPricing";
 import store from "store-js";
-import gql from "graphql-tag";
 
 export default function Index() {
   // Name
@@ -49,11 +46,17 @@ export default function Index() {
     []
   );
   const renderChildrenSpecificProduct = useCallback(
-    (isSelected) => isSelected && <SpecificProduct />,
+    (isSelected) =>
+      isSelected && (
+        <SpecificProduct data={synchronized} childtoParent={childtoParent} />
+      ),
     []
   );
   const renderChildrenProductCollections = useCallback(
-    (isSelected) => isSelected && <ProductCollections />,
+    (isSelected) =>
+      isSelected && (
+        <ProductCollections data={synchronized} childtoParent={childtoParent} />
+      ),
     []
   );
   const renderChildrenProductTags = useCallback(
@@ -64,9 +67,11 @@ export default function Index() {
 
   // Radio Button in Custom Price
 
-  const [valueApplyProducts, setValueApplyProducts] = useState("apply_price");
+  const [valueApplyProducts, setValueApplyProducts] = useState(["apply_price"]);
   const handleChangeValueCustomPrices = useCallback((valueApplyProducts) => {
-    setValueApplyProducts(valueApplyProducts), setValueAmount("0");
+    setValueApplyProducts(valueApplyProducts),
+      setValueAmount("0"),
+      store.set("custom_price", valueApplyProducts);
   }, []);
 
   // End Radio Button in Custom Price
@@ -79,7 +84,11 @@ export default function Index() {
   );
   // End Amount in Custom Prices
 
-  const [pricing, setPricing] = useState("");
+  const [synchronized, setSynchronized] = useState("");
+
+  const childtoParent = async (childdata) => {
+    await setSynchronized(childdata);
+  };
 
   return (
     <Frame>
@@ -186,7 +195,12 @@ export default function Index() {
             </Card>
           </Layout.Section>
           <Layout.Section secondary>
-            <ProductPricing />
+            <ProductPricing
+              data={synchronized}
+              applyProducttoChoice={applytoProductChoice}
+              custom_price={valueApplyProducts}
+              amount={valueAmount}
+            />
           </Layout.Section>
         </Layout>
       </Page>

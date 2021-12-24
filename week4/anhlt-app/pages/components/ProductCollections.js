@@ -4,7 +4,7 @@ import gql from "graphql-tag";
 import store from "store-js";
 import { Query } from "react-apollo";
 
-export default function ProductCollections() {
+export default function ProductCollections(props) {
   const GET_COLLECTIONS = gql`
     {
       collections(first: 10) {
@@ -20,10 +20,15 @@ export default function ProductCollections() {
       }
     }
   `;
+  /**
+   ["gid://shopify/Collection/378821837032", "gid://shopify/Collection/378898088168", "gid://shopify/Collection/393269608680"]
+   * */
+
   const deselectedProductCollections = [];
   const [selectCollections, setSelectCollections] = useState([]);
   const [inputValue, setInputValue] = useState("");
   const [options, setOptions] = useState(deselectedProductCollections);
+  var storeCollections = [];
 
   const updateTextProductCollection = useCallback(
     (value) => {
@@ -44,28 +49,24 @@ export default function ProductCollections() {
   const removeCollection = useCallback(
     (tag) => () => {
       const optionCollections = [...selectCollections];
-      optionCollections.splice(optionCollections.indexOf(tag, 1));
+      optionCollections.splice(optionCollections.indexOf(tag), 1);
       setSelectCollections(optionCollections);
     },
     [selectCollections]
   );
 
-  function titleCase(string) {
-    return string
-      .toString()
-      .toLowerCase()
-      .split(" ")
-      .map((word) => word.replace(word[0], word[0].toUpperCase()))
-      .join("");
-  }
-
   const CollectionMarkup = selectCollections.map((option) => {
-    var Collectionlb = "";
-    Collectionlb = option.replace(("_", " "));
-    Collectionlb = titleCase(Collectionlb);
+    storeCollections = [];
+    selectCollections.map((option) => {
+      options.forEach((e) => {
+        if (e.label == option) storeCollections.push(e.tag);
+      });
+      store.set("collections", storeCollections);
+    });
+
     return (
       <Tag key={`option${option}`} onRemove={removeCollection(option)}>
-        {Collectionlb}
+        {option}
       </Tag>
     );
   });
@@ -90,6 +91,7 @@ export default function ProductCollections() {
               value: d.node.title,
               label: d.node.title,
               image: d.node.image,
+              tag: d.node.id,
             });
           });
           return (
