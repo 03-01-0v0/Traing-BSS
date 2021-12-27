@@ -90,6 +90,10 @@ export default function Index() {
     await setSynchronized(childdata);
   };
 
+  store.set("ids", []);
+  store.set("collections", []);
+  store.set("tags", []);
+
   return (
     <Frame>
       <Page title="New Pricing Rule">
