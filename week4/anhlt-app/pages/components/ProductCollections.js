@@ -62,6 +62,7 @@ export default function ProductCollections(props) {
         if (e.label == option) storeCollections.push(e.tag);
       });
       store.set("collections", storeCollections);
+      props.childtoParent(selectCollections);
     });
 
     return (

@@ -4,7 +4,7 @@ import { Query } from "react-apollo";
 import { useCallback, useState } from "react";
 import { Autocomplete, Stack, TextContainer, Tag } from "@shopify/polaris";
 
-export default function ProductTags() {
+export default function ProductTags(props) {
   const GET_TAGS = gql`
     {
       products(query: "tag:", first: 5, sortKey: TITLE) {
@@ -52,6 +52,7 @@ export default function ProductTags() {
   );
   const tagsMarkup = selectProductTags.map((option) => {
     store.set("tags", selectProductTags);
+    props.childtoParent(selectProductTags);
     var taglb = "";
     taglb = option.replace("_", " ");
     taglb = titleCase(taglb);

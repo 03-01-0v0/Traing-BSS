@@ -60,7 +60,7 @@ export default function Index() {
     []
   );
   const renderChildrenProductTags = useCallback(
-    (isSelected) => isSelected && <ProductTags />,
+    (isSelected) => isSelected && <ProductTags childtoParent={childtoParent} />,
     []
   );
   // End Apply products radio button
@@ -91,8 +91,8 @@ export default function Index() {
   };
 
   store.set("ids", []);
-  store.set("collections", []);
   store.set("tags", []);
+  store.set("collections", []);
 
   return (
     <Frame>
