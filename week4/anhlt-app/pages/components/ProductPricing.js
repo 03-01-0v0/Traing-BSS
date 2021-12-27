@@ -70,7 +70,7 @@ export default function ProductPricing(props) {
     }
   `;
 
-  const tmp = [
+  var tmp = [
     // ["T-Shirt", "All variant prices - 20%"],
     // ["Gift Card", "All variant prices - 20%"],
     // ["Stitch", "160.000đ"],
@@ -164,6 +164,7 @@ export default function ProductPricing(props) {
           if (loading) return <div>Loading...</div>;
           if (error) return <div>{error.message}</div>;
           const currentTags = store.get("tags");
+          tmp = [];
           currentTags.forEach((e) => {
             data.products.edges.forEach((d) => {
               if (d.node.tags.indexOf(e) != -1) tmp.push(d.node.title);

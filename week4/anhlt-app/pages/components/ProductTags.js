@@ -45,7 +45,8 @@ export default function ProductTags(props) {
     (tag) => () => {
       const optionTags = [...selectProductTags];
       optionTags.splice(optionTags.indexOf(tag), 1);
-      store.set("collection", optionTags);
+      store.set("tags", optionTags);
+      props.childtoParent(optionTags);
       setSelectProductTags(optionTags);
     },
     [selectProductTags]

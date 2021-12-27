@@ -51,6 +51,14 @@ export default function ProductCollections(props) {
       const optionCollections = [...selectCollections];
       optionCollections.splice(optionCollections.indexOf(tag), 1);
       setSelectCollections(optionCollections);
+      storeCollections = [];
+      optionCollections.map((option) => {
+        options.forEach((e) => {
+          if (e.label == option) storeCollections.push(e.tag);
+        });
+      });
+      store.set("collections", storeCollections);
+      props.childtoParent(storeCollections);
     },
     [selectCollections]
   );

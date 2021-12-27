@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Button } from "@shopify/polaris";
 import { ResourcePicker } from "@shopify/app-bridge-react";
 import store from "store-js";
@@ -16,11 +16,12 @@ export default function SpecificProduct(props) {
   const [open, setOpen] = useState(false);
 
   const handleSearchProduct = useCallback(() => setOpen(true), []);
-
+  const [data, setData] = useState(store.get("ids"));
   const handleSelectionSpecialProducts = useCallback(async (resources) => {
     const idsFromResources = resources.selection.map((product) => product.id);
     setOpen(false);
     await props.childtoParent(idsFromResources);
+    await setData(idsFromResources);
     store.set("ids", idsFromResources);
   }, []);
 
@@ -60,7 +61,7 @@ export default function SpecificProduct(props) {
         onSelection={(resources) => handleSelectionSpecialProducts(resources)}
         onCancel={() => setOpen(false)}
       />
-      <Query query={GET_PRODUCTS_BY_ID} variables={{ ids: store.get("ids") }}>
+      <Query query={GET_PRODUCTS_BY_ID} variables={{ ids: data }}>
         {({ data, loading, error }) => {
           if (loading) return <div>Loading...</div>;
           if (error) return <div>{error.message}</div>;

@@ -54,9 +54,7 @@ export default function Index() {
   );
   const renderChildrenProductCollections = useCallback(
     (isSelected) =>
-      isSelected && (
-        <ProductCollections data={synchronized} childtoParent={childtoParent} />
-      ),
+      isSelected && <ProductCollections childtoParent={childtoParent} />,
     []
   );
   const renderChildrenProductTags = useCallback(
@@ -87,6 +85,7 @@ export default function Index() {
   const [synchronized, setSynchronized] = useState("");
 
   const childtoParent = async (childdata) => {
+    console.log("check");
     await setSynchronized(childdata);
   };
 
